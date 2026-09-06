@@ -1,0 +1,1 @@
+{"changes":[{"resource":"aws_security_group.platform","kind":"public_exposure","detail":"unexpected ingress detected"},{"resource":"aws_cloudwatch_log_group.platform","kind":"configuration_change","managed":true,"detail":"retention differs from desired state"}]}

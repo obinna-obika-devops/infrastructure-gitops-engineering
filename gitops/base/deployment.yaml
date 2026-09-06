@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-api
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: platform-api}}
+  template:
+    metadata: {labels: {app: platform-api}}
+    spec:
+      securityContext: {runAsNonRoot: true}
+      containers:
+        - name: api
+          image: nginx:1.27
+          ports: [{containerPort: 8080}]
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 256Mi}
