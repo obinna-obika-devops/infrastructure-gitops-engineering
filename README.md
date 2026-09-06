@@ -2,6 +2,8 @@
 
 Production-grade reference platform for infrastructure change management using GitOps, Terraform, Kubernetes, policy-as-code, drift detection, progressive environment promotion, and automated rollback planning.
 
+> **Reviewing this for a role?** Start with the [5-minute recruiter/interview walkthrough](docs/recruiter-walkthrough.md) for the fastest path through the engineering evidence.
+
 ## What this demonstrates
 
 - Git as the source of truth for infrastructure and application configuration
@@ -59,6 +61,15 @@ Validation -> Policy Gates -> Merge
 - `tests/` — unit tests for change-management logic
 - `docs/` — ADRs, operating model, promotion and rollback runbooks
 - `examples/` — representative drift and promotion data
+
+## Recruiter evidence path
+
+- [Recruiter / Interview Walkthrough](docs/recruiter-walkthrough.md)
+- `terraform/` — infrastructure-as-code evidence
+- `gitops/` — desired-state and environment promotion evidence
+- `automation/` + `scripts/` — operational automation
+- `policies/` — policy-as-code controls
+- `tests/` + `.github/` — validation and CI evidence
 
 ## Local demo
 
