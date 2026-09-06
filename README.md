@@ -1,6 +1,46 @@
 # Infrastructure GitOps Engineering
 
+<p align="center">
+<a href="https://github.com/obinna-obika-devops/infrastructure-gitops-engineering/actions/workflows/ci.yml"><img src="https://github.com/obinna-obika-devops/infrastructure-gitops-engineering/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<img src="https://img.shields.io/badge/Terraform-IaC-7B42BC?logo=terraform" alt="Terraform">
+<img src="https://img.shields.io/badge/GitOps-Desired%20State-EF7B4D" alt="GitOps">
+<img src="https://img.shields.io/badge/Kubernetes-Kustomize-326CE5?logo=kubernetes" alt="Kubernetes">
+<img src="https://img.shields.io/badge/Policy-OPA%20%2F%20Rego-blue" alt="Policy as Code">
+</p>
+
 Production-grade reference platform for infrastructure change management using GitOps, Terraform, Kubernetes, policy-as-code, drift detection, progressive environment promotion, and automated rollback planning.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Engineer / PR] --> B[CI Validation]
+    B --> C[Policy Gates]
+    C --> D[Git Source of Truth]
+    D --> E[Dev]
+    E --> F[Staging]
+    F --> G[Production]
+    D --> H[GitOps Reconciliation]
+    H --> I[Kubernetes / Infrastructure]
+    I --> J[Drift Detection]
+    J --> K{Drift class}
+    K -->|Expected| L[Record]
+    K -->|Actionable| M[Remediate]
+    K -->|Dangerous| N[Rollback Plan]
+```
+
+## Evidence at a glance
+
+| Engineering area | Inspectable evidence |
+|---|---|
+| Terraform infrastructure | [`terraform/`](terraform/) |
+| Desired state / overlays | [`gitops/`](gitops/) |
+| Promotion, drift and rollback automation | [`automation/`](automation/) + [`scripts/`](scripts/) |
+| Policy-as-code | [`policies/`](policies/) |
+| Unit tests | [`tests/`](tests/) |
+| Representative scenarios | [`examples/`](examples/) |
+| CI validation | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
+| Operational documentation | [`docs/`](docs/) |
 
 ## What this demonstrates
 
@@ -13,30 +53,6 @@ Production-grade reference platform for infrastructure change management using G
 - Rollback planning for failed releases or infrastructure changes
 - Kubernetes Kustomize overlays and safe workload defaults
 - CI validation for Terraform, Python automation, manifests, and policies
-
-## Architecture
-
-```text
-Developer PR
-    |
-    v
-Validation -> Policy Gates -> Merge
-                         |
-                         v
-                 GitOps Repository
-                  /       |       \
-                dev    staging     prod
-                 |        |          |
-                 +--------+----------+
-                          |
-                    Reconciliation
-                          |
-                       Cluster
-                          |
-                    Drift Detection
-                          |
-                   Alert / Remediate
-```
 
 ## Operating model
 
@@ -59,14 +75,6 @@ Validation -> Policy Gates -> Merge
 - `tests/` — unit tests for change-management logic
 - `docs/` — change management and drift-response procedures
 - `examples/` — representative drift and promotion data
-
-## Engineering controls
-
-- `terraform/` — infrastructure-as-code
-- `gitops/` — desired state and environment promotion
-- `automation/` + `scripts/` — operational automation
-- `policies/` — policy-as-code controls
-- `tests/` + `.github/` — automated validation and CI
 
 ## Local validation
 
