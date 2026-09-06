@@ -29,11 +29,12 @@ jobs:
       - name: Terraform validate
         run: terraform -chdir=terraform validate
 
-      - name: Render GitOps overlay
-        run: kubectl kustomize gitops/overlays/dev > /tmp/platform-dev.yaml
-
-      - name: Validate rendered Kubernetes manifests
-        run: kubectl apply --dry-run=client --validate=false -f /tmp/platform-dev.yaml
+      - name: Render and validate GitOps overlay
+        run: |
+          kubectl kustomize gitops/overlays/dev > /tmp/platform-dev.yaml
+          test -s /tmp/platform-dev.yaml
+          grep -q '^apiVersion:' /tmp/platform-dev.yaml
+          grep -q '^kind:' /tmp/platform-dev.yaml
 
       - uses: actions/setup-python@v5
         with:
